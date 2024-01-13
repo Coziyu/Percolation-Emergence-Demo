@@ -8,6 +8,8 @@
 #define DEFAULT_CELL_WIDTH 20
 #define DEFAULT_CELL_HEIGHT 20
 
+// TODO: Clean this slop up
+
 int main(){
 
     sf::RenderWindow window;
