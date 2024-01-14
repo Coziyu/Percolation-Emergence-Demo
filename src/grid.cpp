@@ -58,8 +58,16 @@ void PercoGrid::initialize_grid(){
 
         new_rect.setOutlineThickness(0.0f);
 
-        // If on the left border:
-        if (x_offset == 0){
+            // (x_offset == 0 && y_offset == 0) || 
+            // (x_offset == (nCols - 1) && y_offset == 0) ||
+            // (x_offset == (nCols - 1) && y_offset == (nRows - 1)) ||
+            // (x_offset == 0 && y_offset == (nRows - 1))
+        if (
+            (x_offset == 0) || 
+            (x_offset == (nCols - 1)) ||
+            (y_offset == (nRows - 1)) ||
+            (y_offset == 0)
+            ){
             connected_cluster.insert(index);
             new_rect.setFillColor(get_cell_color_by_state(CellStates::connected));
         }
@@ -184,7 +192,8 @@ PercoGrid::CellStates PercoGrid::get_cell_state_by_index(const int &index){
 
 bool PercoGrid::is_connected(const int &index){
     auto it = std::find(connected_cluster.begin(), connected_cluster.end(), index);
-    return (it != connected_cluster.end()) || ((index % nCols) == 0);
+    //return (it != connected_cluster.end()) || ((index) == 0) || (index == (nCols - 1)) || (index == ((nRows - 1) * nCols)) || (index == get_grid_count() - 1);
+    return (it != connected_cluster.end()) || ((index % nCols == 0) || (index / nCols == 0) || (index % nCols == nCols - 1)) || (index / nCols == nRows - 1);
 }
 
 bool PercoGrid::is_unactivated(const int &index){
