@@ -80,16 +80,7 @@ void PercoGrid::draw_grid(){
 }
 
 void PercoGrid::update_grid(){
-    /* TODO: Implement Update Grid
-     - Iterate through unactivated cells: 
-    //  - - Activate them if cell surpass the threshold
-    //  - - Add cell to exisiting or new cluster
-    //  - - Untag cell as unactivated
-     - - Check if newly activated cell is adjacent to connected cell
-     - - - If connected, connect every cell in the cluster
-    */
     //TODO: Parallelize
-
     std::vector<int> activated_indices;
 
     for(auto index : unactivated_indices){
@@ -137,6 +128,7 @@ void PercoGrid::update_grid(){
             }
 
             // Check if newly activated cell is adjacent to a connected cell
+            // TODO: Clean this up. Currently member checking is very slow
             if(root_cluster){
                 for(int& neighbour : neighbours){
                     if(is_connected(neighbour)){
