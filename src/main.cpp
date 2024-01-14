@@ -5,8 +5,8 @@
 #include <SFML/Window.hpp>
 #include "logging.hpp"
 #include "grid.hpp"
-#define DEFAULT_CELL_WIDTH 20
-#define DEFAULT_CELL_HEIGHT 20
+#define DEFAULT_CELL_WIDTH 6
+#define DEFAULT_CELL_HEIGHT 6
 
 // TODO: Clean this slop up
 
@@ -14,6 +14,7 @@ int main(){
 
     sf::RenderWindow window;
     window.create(sf::VideoMode(1000, 1000), "Percolation Emergence");
+    // window.setKeyRepeatEnabled(false);
 
     PercoGrid grid(DEFAULT_CELL_WIDTH, DEFAULT_CELL_HEIGHT, &window);
 
@@ -29,9 +30,18 @@ int main(){
                         window.close();
                         break;
                     }
+                    case sf::Keyboard::Tilde: {
+                        grid.change_threshold(-500);
+                        break;
+                    }
+                    case sf::Keyboard::R: {
+                        grid = PercoGrid(DEFAULT_CELL_WIDTH, DEFAULT_CELL_HEIGHT, &window);
+                    }
                 } 
             }
         }
+
+        grid.update_grid();
 
         window.clear(sf::Color::Black);
         grid.draw_grid();

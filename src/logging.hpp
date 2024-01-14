@@ -1,11 +1,18 @@
+
 #ifndef LOGGING_HPP
 #define LOGGING_HPP
 
 #include <string>
 #include <iostream>
 
-//! HEADER ONLY BECAUSE C++ CAN'T SPLIT TEMPLATES PROPERLY  
-const bool PRINT_NON_CRITICAL = true;
+//! HEADER ONLY BECAUSE C++ CAN'T SPLIT TEMPLATES PROPERLY
+#ifdef NDEBUG
+    const bool PRINT_NON_CRITICAL = false;
+    const bool PRINT_DEBUG = false;
+#else
+    const bool PRINT_NON_CRITICAL = true;
+    const bool PRINT_DEBUG = true;
+#endif
 
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"                 /* Black */
@@ -31,8 +38,10 @@ inline void log_info_recur(){
 
 template<typename First, typename... Rest>
 void log_info(const First& first, const Rest&... rest) {
-    std::cout << GREEN << "[INFO] " << first << " ";
-    log_info_recur(rest...);
+    if(PRINT_NON_CRITICAL){
+        std::cout << WHITE << "[INFO] " << first << " ";
+        log_info_recur(rest...);
+    }
 }
 
 template<typename First, typename... Rest>
@@ -62,6 +71,7 @@ void log_warn_recur(const First& first, const Rest&... rest) {
 
 
 
+
 inline void log_error_recur(){
     std::cout << RESET << "\n";
 };
@@ -77,6 +87,26 @@ void log_error_recur(const First& first, const Rest&... rest) {
     log_error_recur(rest...);
 }
 
+
+
+
+inline void log_debug_recur(){
+    std::cout << RESET << "\n";
+};
+
+template<typename First, typename... Rest>
+void log_debug(const First& first, const Rest&... rest) {
+    if(PRINT_DEBUG){
+        std::cout << GREEN << "[DEBUG] " << first << " ";
+        log_debug_recur(rest...);
+    }
+}
+
+template<typename First, typename... Rest>
+void log_debug_recur(const First& first, const Rest&... rest) {
+    std::cout << first << " ";
+    log_debug_recur(rest...);
+}
 #undef RESET
 #undef BLACK
 #undef RED
