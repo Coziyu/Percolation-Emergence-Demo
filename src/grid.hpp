@@ -63,6 +63,8 @@ public:
     void update_grid();
 
     void change_threshold(const int &offset);
+
+    void print_stats();
 };
 
 #endif // GRID_HPP

@@ -31,6 +31,7 @@ int main(){
                         break;
                     }
                     case sf::Keyboard::Tilde: {
+                        grid.print_stats();
                         grid.change_threshold(-500);
                         break;
                     }

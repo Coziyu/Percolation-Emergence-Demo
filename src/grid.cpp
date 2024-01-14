@@ -138,8 +138,9 @@ void PercoGrid::update_grid(){
                         }
                         auto root_cluster_iter = std::find(activated_clusters.begin(), activated_clusters.end(), *root_cluster);
                         if (root_cluster_iter != activated_clusters.end()) {
-                            log_debug("Removing Connntected Cluster with Cell:", index);
+                            log_debug("Removing Connected Cluster with Cell:", index);
                             activated_clusters.erase(root_cluster_iter);
+                            break;
                         }
                     }
                 }
@@ -226,4 +227,8 @@ std::list<int> PercoGrid::get_cell_neighbours(const int &index) const{
 void PercoGrid::change_threshold(const int &offset){
     log_info("Threshold adjusted by:", offset);
     activation_threshold += offset;
+}
+
+void PercoGrid::print_stats(){
+    std::cout << MAX_RNG_VAL + 1 - activation_threshold << "," << static_cast<float>(connected_cluster.size()) / static_cast<float>(get_grid_count()) << "\n";
 }
