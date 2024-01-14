@@ -11,6 +11,10 @@
 #define MIN_RNG_VAL 0
 #define MAX_RNG_VAL 100000
 
+//TODO: Find a nice way to set the initial connection conditions.
+// - Currently the hacky way to do so is to modify the PercoGrid::is_connected() method, and also the PercoGrid::initialize_grid() method.
+// - Perhaps we can iterate through modify initialize_grid() to call PercoGrid::update_grid() once 
+
 void PercoGrid::initialize_grid_values() {
     std::random_device rd;  // a seed source for the random number engine
     std::mt19937 gen(rd()); // mersenne_twister_engine seeded with rd()
